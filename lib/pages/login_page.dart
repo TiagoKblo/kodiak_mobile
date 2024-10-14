@@ -1,8 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/widgets.dart';
+import 'package:kodiak/pages/home.dart';
 import 'package:lottie/lottie.dart';
+import 'package:page_transition/page_transition.dart';
+
+import '../http/login.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,8 +17,11 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   late AnimationController _loginAnimationController;
   bool animated = false;
-  bool showlogo = false;
+  bool showLogo = false;
   bool showForm = false;
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -31,14 +37,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
         setState(() {
           Future.delayed(const Duration(milliseconds: 700), () {
-            showlogo = true;
+            showLogo = true;
 
             setState(() {});
           });
         });
 
         setState(() {
-          Future.delayed(const Duration(milliseconds: 1500), () {
+          Future.delayed(const Duration(milliseconds: 1100), () {
             showForm = true;
 
             setState(() {});
@@ -49,184 +55,210 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+
+    _loginAnimationController.dispose();
+
+    _emailController.dispose();
+
+    _passwordController.dispose();
+  }
+
+  Future<void> handleLogin() async {
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Preencha todos os campos')));
+      return;
+    }
+
+    try {
+      await login(email, password);
+
+      Navigator.pushReplacement(
+          context,
+          PageTransition(
+              type: PageTransitionType.size, alignment: Alignment.center, duration: const Duration(milliseconds: 300), child: const HomePage()));
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Erro ao logar: $e')));
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            AnimatedContainer(
-              duration: const Duration(seconds: 1),
-              height: showlogo ? screenHeight / 2 : screenHeight,
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                    colors: [Color(0xFF1d4ed8), Color(0xFF3b82f6)]),
-                borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(animated ? 40.0 : 0.0)),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Visibility(
-                    visible: !animated,
+        body: SingleChildScrollView(
+      child: Stack(
+        children: [
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 500),
+            height: showLogo ? screenHeight / 2 : screenHeight,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                  colors: [Color(0xFF1d4ed8), Color(0xFF3b82f6)]),
+              borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(animated ? 40.0 : 0.0)),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Visibility(
+                  visible: !animated,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                        width: 120,
+                        height: 120,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Lottie.asset('assets/loading.json',
+                              controller: _loginAnimationController,
+                              onLoaded: (composition) {
+                            _loginAnimationController
+                              ..duration = composition.duration
+                              ..forward();
+                          }, height: 120.0, width: 120.0),
+                        )),
+                  ),
+                ),
+                Visibility(
+                  visible: animated,
+                  child: AnimatedOpacity(
+                    opacity: animated ? 1.0 : 0.0,
+                    duration: const Duration(seconds: 2),
+                    curve: Curves.easeInOut,
                     child: Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                          width: 120,
-                          height: 120,
+                        alignment: Alignment.center,
+                        child: Container(
+                          width: 230,
+                          height: 230,
                           decoration: const BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(15.0)),
                           ),
                           child: Align(
                             alignment: Alignment.center,
-                            child: Lottie.asset('assets/loading.json',
-                                controller: _loginAnimationController,
-                                onLoaded: (composition) {
-                                  _loginAnimationController
-                                    ..duration = composition.duration
-                                    ..forward();
-                                }, height: 120.0, width: 120.0),
-                          )
-                      ),
-                    ),
+                            child: Image.asset('assets/kodiak_logo.png',
+                                height: 190.0, width: 190.0),
+                          ),
+                        )),
                   ),
-                  Visibility(
-                    visible: animated,
-                    child: AnimatedOpacity(
-                      opacity: animated ? 1.0 : 0.0,
-                      duration: const Duration(seconds: 2),
-                      curve: Curves.easeInOut,
-                      child: Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                            width: 230,
-                            height: 230,
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                )
+              ],
+            ),
+          ),
+          Visibility(
+            visible: showForm,
+            child: AnimatedOpacity(
+              opacity: showForm ? 1.0 : 0.0,
+              duration: const Duration(seconds: 2),
+              curve: Curves.easeInOut,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.only(top: 62),
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: screenHeight / 2,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 1.2,
+                      height: 45,
+                      padding: const EdgeInsets.only(
+                          top: 4, left: 16, right: 16, bottom: 4),
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                          boxShadow: [
+                            BoxShadow(color: Colors.black26, blurRadius: 5)
+                          ]),
+                      child: TextField(
+                        controller: _emailController,
+                        decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            icon: Icon(
+                              Icons.email,
+                              color: Colors.grey,
                             ),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Image.asset('assets/kodiak_logo.png',
-                                  height: 190.0, width: 190.0),
-                            ),
-                          )
+                            hintText: 'E-mail'),
                       ),
                     ),
-                  )
-                ],
-              ),
-            ),
-
-            Visibility(
-              visible: showForm,
-              child: AnimatedOpacity(
-                opacity: showForm ? 1.0 : 0.0,
-                duration: const Duration(seconds: 2),
-                curve: Curves.easeInOut,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  padding: const EdgeInsets.only(top: 62),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: screenHeight / 2,
+                    Container(
+                      width: MediaQuery.of(context).size.width / 1.2,
+                      height: 45,
+                      margin: const EdgeInsets.only(top: 32),
+                      padding: const EdgeInsets.only(
+                          top: 4, left: 16, right: 16, bottom: 4),
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                          boxShadow: [
+                            BoxShadow(color: Colors.black26, blurRadius: 5)
+                          ]),
+                      child: TextField(
+                        controller: _passwordController,
+                        decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            icon: Icon(
+                              Icons.vpn_key,
+                              color: Colors.grey,
+                            ),
+                            hintText: 'Senha'),
                       ),
-
-                      Container(
-                        width: MediaQuery.of(context).size.width / 1.2,
-                        height: 45,
-                        padding: const EdgeInsets.only(
-                            top: 4, left: 16, right: 16, bottom: 4
-                        ),
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                            boxShadow: [
-                              BoxShadow(color: Colors.black26, blurRadius: 5)
-                            ]
-                        ),
-                        child: const TextField(
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              icon: Icon(
-                                Icons.email,
-                                color: Colors.grey,
-                              ),
-                              hintText: 'E-mail'
-                          ),
+                    ),
+                    const Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 16, right: 32),
+                        child: Text(
+                          'Esqueceu a senha ?',
+                          style: TextStyle(color: Colors.black45),
                         ),
                       ),
-
-                      Container(
-                        width: MediaQuery.of(context).size.width / 1.2,
-                        height: 45,
-                        margin: const EdgeInsets.only(top: 32),
-                        padding: const EdgeInsets.only(
-                            top: 4, left: 16, right: 16, bottom: 4
-                        ),
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                            boxShadow: [
-                              BoxShadow(color: Colors.black26, blurRadius: 5)
-                            ]
-                        ),
-                        child: const TextField(
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              icon: Icon(
-                                Icons.vpn_key,
-                                color: Colors.grey,
-                              ),
-                              hintText: 'Senha'
-                          ),
-                        ),
-                      ),
-
-                      const Align(
-                        alignment: Alignment.centerRight,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 16, right: 32
-                          ),
-                          child: Text(
-                            'Esqueceu a senha ?',
-                            style: TextStyle(color: Colors.black45),
-                          ),
-                        ),
-                      ),
-
-                      Container(
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        await handleLogin();
+                      },
+                      child: Container(
                           height: 45,
                           width: MediaQuery.of(context).size.width / 1.2,
                           margin: const EdgeInsets.only(top: 20.0),
                           decoration: const BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: [Color(0xFF1d4ed8), Color(0xFF3b82f6)]
-                              ),
-                              borderRadius: BorderRadius.all(Radius.circular(50.0))
-                          ),
+                              gradient: LinearGradient(colors: [
+                                Color(0xFF1d4ed8),
+                                Color(0xFF3b82f6)
+                              ]),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(50.0))),
                           child: Center(
                             child: Text(
                               'Login'.toUpperCase(),
                               style: const TextStyle(
                                   color: Colors.white,
-                                  fontWeight: FontWeight.bold
-                              ),
+                                  fontWeight: FontWeight.bold),
                             ),
-                          )
-                      )
-                    ],
-                  ),
+                          )),
+                    )
+                  ],
                 ),
               ),
-            )
-          ],
-        ),
-      )
-    );
+            ),
+          )
+        ],
+      ),
+    ));
   }
 }
