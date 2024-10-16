@@ -209,6 +209,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           ]),
                       child: TextField(
                         controller: _passwordController,
+                        obscureText: true,
                         decoration: const InputDecoration(
                             border: InputBorder.none,
                             icon: Icon(
