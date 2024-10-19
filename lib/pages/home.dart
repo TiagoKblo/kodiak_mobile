@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -8,8 +7,28 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFf1faee),
       appBar: AppBar(
         backgroundColor: const Color(0xFF1d4ed8),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFF143c8c),
+                    Color(0xFF398cbf),
+                  ]),
+              borderRadius:
+                  const BorderRadius.vertical(bottom: Radius.circular(30)),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withOpacity(0.3),
+                    spreadRadius: 2,
+                    blurRadius: 8,
+                    offset: const Offset(0, 5))
+              ]),
+        ),
         centerTitle: true,
         // title: const Text('Kodiak', style: TextStyle(fontSize: 17, color: Colors.white, letterSpacing: 0.53),),
         shape: const RoundedRectangleBorder(
@@ -21,18 +40,24 @@ class HomePage extends StatelessWidget {
         //     color: Colors.white,
         //   ),
         // ),
-        // actions: [
-        //   InkWell(
-        //     onTap: () {},
-        //     child: const Padding(padding: EdgeInsets.all(8.0),
-        //     child: Icon(
-        //       Icons.notifications,
-        //       size: 20,
-        //     ),),
-        //   )
-        // ],
+        actions: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: InkWell(
+                  onTap: () {},
+                  borderRadius: BorderRadius.circular(8),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Icon(
+                      CupertinoIcons.arrow_right_to_line,
+                      size: 30,
+                      color: const Color(0xFFf1faee),
+                    ),
+                  )),
+          )
+        ],
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(110.0),
+          preferredSize: const Size.fromHeight(140.0),
           child: Container(
             padding: const EdgeInsets.only(left: 30.0, bottom: 30.0),
             child: Row(
@@ -40,9 +65,12 @@ class HomePage extends StatelessWidget {
                 const Stack(
                   children: [
                     CircleAvatar(
-                      radius: 32.0,
-                      backgroundColor: Colors.white,
-                      child: Icon(Icons.person_outline_rounded),
+                      radius: 56.0,
+                      backgroundColor: const Color(0xFFf1faee),
+                      child: Icon(
+                        Icons.person_outline_rounded,
+                        size: 40,
+                      ),
                     ),
                   ],
                 ),
@@ -54,17 +82,17 @@ class HomePage extends StatelessWidget {
                       Text(
                         'Usuário',
                         style: TextStyle(
-                            fontSize: 22,
+                            fontSize: 32,
                             fontWeight: FontWeight.w700,
-                            color: Colors.white),
+                            color: const Color(0xFFf1faee)),
                       ),
                       Text(
-                        'usuario@email.com',
-                        style: TextStyle(fontSize: 13, color: Colors.white),
+                        'Empresa',
+                        style: TextStyle(fontSize: 16, color: const Color(0xFFf1faee)),
                       ),
                       Text(
                         'Vendedor',
-                        style: TextStyle(fontSize: 13, color: Colors.white),
+                        style: TextStyle(fontSize: 16, color: const Color(0xFFf1faee)),
                       )
                     ],
                   ),
@@ -76,466 +104,120 @@ class HomePage extends StatelessWidget {
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      height: 64.0,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15.0)),
-                            boxShadow: [
-                              BoxShadow(color: Colors.black26, blurRadius: 5)
-                            ]),
-                        child: Stack(
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Container(
-                                  width: 64.0,
-                                  height: 64.0,
-                                  alignment: Alignment.centerLeft,
-                                  decoration: const BoxDecoration(
-                                      color: Color(0xFF1d4ed8),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(15.0))),
-                                  child: const Align(
-                                      alignment: Alignment.center,
-                                      child: Icon(CupertinoIcons.bag_fill, color: Colors.white,)),
-                                ),
-                                Expanded(
-                                  child: Center(
-                                    child: Text(
-                                      "Vendas",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineMedium
-                                          ?.copyWith(color: Colors.black),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox.expand(
-                              child: Material(
-                                type: MaterialType.transparency,
-                                child: InkWell(
-                                  onTap: () {},
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  )),
-                ],
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    buildSquareButton(CupertinoIcons.bag_fill, 'Vendas', () {}),
+                    buildSquareButton(CupertinoIcons.bag_fill, 'Vendas', () {})
+                  ],
+                ),
               ),
-
-              Row(
-                children: [
-                  Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          height: 64.0,
-                          child: Container(
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(15.0)),
-                                boxShadow: [
-                                  BoxShadow(color: Colors.black26, blurRadius: 5)
-                                ]),
-                            child: Stack(
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Container(
-                                      width: 64.0,
-                                      height: 64.0,
-                                      alignment: Alignment.centerLeft,
-                                      decoration: const BoxDecoration(
-                                          color: Color(0xFF1d4ed8),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(15.0))),
-                                      child: const Align(
-                                          alignment: Alignment.center,
-                                          child: Icon(CupertinoIcons.bag_fill, color: Colors.white,)),
-                                    ),
-                                    Expanded(
-                                      child: Center(
-                                        child: Text(
-                                          "Vendas",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headlineMedium
-                                              ?.copyWith(color: Colors.black),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox.expand(
-                                  child: Material(
-                                    type: MaterialType.transparency,
-                                    child: InkWell(
-                                      onTap: () {},
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      )),
-                ],
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    buildSquareButton(CupertinoIcons.bag_fill, 'Vendas', () {}),
+                    buildSquareButton(CupertinoIcons.bag_fill, 'Vendas', () {})
+                  ],
+                ),
               ),
-
-              Row(
-                children: [
-                  Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          height: 64.0,
-                          child: Container(
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(15.0)),
-                                boxShadow: [
-                                  BoxShadow(color: Colors.black26, blurRadius: 5)
-                                ]),
-                            child: Stack(
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Container(
-                                      width: 64.0,
-                                      height: 64.0,
-                                      alignment: Alignment.centerLeft,
-                                      decoration: const BoxDecoration(
-                                          color: Color(0xFF1d4ed8),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(15.0))),
-                                      child: const Align(
-                                          alignment: Alignment.center,
-                                          child: Icon(CupertinoIcons.bag_fill, color: Colors.white,)),
-                                    ),
-                                    Expanded(
-                                      child: Center(
-                                        child: Text(
-                                          "Vendas",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headlineMedium
-                                              ?.copyWith(color: Colors.black),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox.expand(
-                                  child: Material(
-                                    type: MaterialType.transparency,
-                                    child: InkWell(
-                                      onTap: () {},
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      )),
-                ],
-              ),
-
-              Row(
-                children: [
-                  Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          height: 64.0,
-                          child: Container(
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(15.0)),
-                                boxShadow: [
-                                  BoxShadow(color: Colors.black26, blurRadius: 5)
-                                ]),
-                            child: Stack(
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Container(
-                                      width: 64.0,
-                                      height: 64.0,
-                                      alignment: Alignment.centerLeft,
-                                      decoration: const BoxDecoration(
-                                          color: Color(0xFF1d4ed8),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(15.0))),
-                                      child: const Align(
-                                          alignment: Alignment.center,
-                                          child: Icon(CupertinoIcons.bag_fill, color: Colors.white,)),
-                                    ),
-                                    Expanded(
-                                      child: Center(
-                                        child: Text(
-                                          "Vendas",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headlineMedium
-                                              ?.copyWith(color: Colors.black),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox.expand(
-                                  child: Material(
-                                    type: MaterialType.transparency,
-                                    child: InkWell(
-                                      onTap: () {},
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      )),
-                ],
-              ),
-
-              Row(
-                children: [
-                  Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          height: 64.0,
-                          child: Container(
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(15.0)),
-                                boxShadow: [
-                                  BoxShadow(color: Colors.black26, blurRadius: 5)
-                                ]),
-                            child: Stack(
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Container(
-                                      width: 64.0,
-                                      height: 64.0,
-                                      alignment: Alignment.centerLeft,
-                                      decoration: const BoxDecoration(
-                                          color: Color(0xFF1d4ed8),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(15.0))),
-                                      child: const Align(
-                                          alignment: Alignment.center,
-                                          child: Icon(CupertinoIcons.bag_fill, color: Colors.white,)),
-                                    ),
-                                    Expanded(
-                                      child: Center(
-                                        child: Text(
-                                          "Vendas",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headlineMedium
-                                              ?.copyWith(color: Colors.black),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox.expand(
-                                  child: Material(
-                                    type: MaterialType.transparency,
-                                    child: InkWell(
-                                      onTap: () {},
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      )),
-                ],
-              ),
-
-              Row(
-                children: [
-                  Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          height: 64.0,
-                          child: Container(
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(15.0)),
-                                boxShadow: [
-                                  BoxShadow(color: Colors.black26, blurRadius: 5)
-                                ]),
-                            child: Stack(
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Container(
-                                      width: 64.0,
-                                      height: 64.0,
-                                      alignment: Alignment.centerLeft,
-                                      decoration: const BoxDecoration(
-                                          color: Color(0xFF1d4ed8),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(15.0))),
-                                      child: const Align(
-                                          alignment: Alignment.center,
-                                          child: Icon(CupertinoIcons.bag_fill, color: Colors.white,)),
-                                    ),
-                                    Expanded(
-                                      child: Center(
-                                        child: Text(
-                                          "Vendas",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headlineMedium
-                                              ?.copyWith(color: Colors.black),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox.expand(
-                                  child: Material(
-                                    type: MaterialType.transparency,
-                                    child: InkWell(
-                                      onTap: () {},
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      )),
-                ],
-              ),
-
-              Row(
-                children: [
-                  Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          height: 64.0,
-                          child: Container(
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(15.0)),
-                                boxShadow: [
-                                  BoxShadow(color: Colors.black26, blurRadius: 5)
-                                ]),
-                            child: Stack(
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Container(
-                                      width: 64.0,
-                                      height: 64.0,
-                                      alignment: Alignment.centerLeft,
-                                      decoration: const BoxDecoration(
-                                          color: Color(0xFF1d4ed8),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(15.0))),
-                                      child: const Align(
-                                          alignment: Alignment.center,
-                                          child: Icon(CupertinoIcons.bag_fill, color: Colors.white,)),
-                                    ),
-                                    Expanded(
-                                      child: Center(
-                                        child: Text(
-                                          "Vendas",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headlineMedium
-                                              ?.copyWith(color: Colors.black),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox.expand(
-                                  child: Material(
-                                    type: MaterialType.transparency,
-                                    child: InkWell(
-                                      onTap: () {},
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      )),
-                ],
-              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    buildSquareButton(CupertinoIcons.bag_fill, 'Vendas', () {}),
+                    buildSquareButton(CupertinoIcons.bag_fill, 'Vendas', () {})
+                  ],
+                ),
+              )
             ],
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          height: 80,
-          decoration: BoxDecoration(
-            color: Color(0xFF1d4ed8),
-            borderRadius: BorderRadius.all(Radius.circular(30))),
-          child: Row(
-            children: [
-              Expanded(child: InkWell(
-                onTap: () {},
-                child: Icon(
-                  CupertinoIcons.book_fill,
-                  color: Colors.white,
-                ),
-              ),),
-              Expanded(child: InkWell(
-                onTap: () {},
-                child: Icon(
-                  CupertinoIcons.person_crop_circle,
-                  color: Colors.white,
-                ),
-              ),),
-              Expanded(child: InkWell(
-                onTap: () {},
-                child: Icon(
-                  CupertinoIcons.arrow_right_to_line,
-                  color: Colors.white,
-                ),
-              ),),
-            ],
-          ),
-          ),
-      ),
+      // bottomNavigationBar: Padding(
+      //   padding: const EdgeInsets.all(8.0),
+      //   child: Container(
+      //     height: 80,
+      //     decoration: BoxDecoration(
+      //       color: Color(0xFF1d4ed8),
+      //       borderRadius: BorderRadius.all(Radius.circular(30))),
+      //     child: Row(
+      //       children: [
+      //         Expanded(child: InkWell(
+      //           onTap: () {},
+      //           child: Icon(
+      //             CupertinoIcons.book_fill,
+      //             color: Colors.white,
+      //           ),
+      //         ),),
+      //         Expanded(child: InkWell(
+      //           onTap: () {},
+      //           child: Icon(
+      //             CupertinoIcons.person_crop_circle,
+      //             color: Colors.white,
+      //           ),
+      //         ),),
+      //         Expanded(child: InkWell(
+      //           onTap: () {},
+      //           child: Icon(
+      //             CupertinoIcons.arrow_right_to_line,
+      //             color: Colors.white,
+      //           ),
+      //         ),),
+      //       ],
+      //     ),
+      //     ),
+      // ),
     );
   }
+}
+
+Widget buildSquareButton(IconData icon, String label, VoidCallback onPressed) {
+  return Expanded(
+      child: AspectRatio(
+    aspectRatio: 1,
+    child: GestureDetector(
+        onTap: onPressed,
+        child: Container(
+            margin: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color(0xFF143c8c),
+                      Color(0xFF398cbf),
+                    ]),
+                color: const Color(0xFF1d4ed8),
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      spreadRadius: 2,
+                      blurRadius: 8,
+                      offset: const Offset(0, 5))
+                ]),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  icon,
+                  size: 80,
+                  color: const Color(0xFFf1faee),
+                ),
+                const SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  label,
+                  style: const TextStyle(color: const Color(0xFFf1faee), fontSize: 24),
+                )
+              ],
+            ))),
+  ));
 }

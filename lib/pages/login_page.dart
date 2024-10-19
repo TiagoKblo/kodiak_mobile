@@ -81,7 +81,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       Navigator.pushReplacement(
           context,
           PageTransition(
-              type: PageTransitionType.size, alignment: Alignment.center, duration: const Duration(milliseconds: 300), child: const HomePage()));
+              type: PageTransitionType.size, alignment: Alignment.center, duration: const Duration(milliseconds: 300), child: const HomePage(), curve: Curves.easeInOut));
     } catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Erro ao logar: $e')));
@@ -101,43 +101,58 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             height: showLogo ? screenHeight / 2 : screenHeight,
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                  colors: [Color(0xFF1d4ed8), Color(0xFF3b82f6)]),
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFF143c8c),
+                    Color(0xFF398cbf),
+                  ]),
               borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(animated ? 40.0 : 0.0)),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      spreadRadius: 2,
+                      blurRadius: 8,
+                      offset: const Offset(0, 5))
+                ]
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Visibility(
-                  visible: !animated,
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                        width: 120,
-                        height: 120,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                        ),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Lottie.asset('assets/loading.json',
-                              controller: _loginAnimationController,
-                              onLoaded: (composition) {
-                            _loginAnimationController
-                              ..duration = composition.duration
-                              ..forward();
-                          }, height: 120.0, width: 120.0),
-                        )),
+                AnimatedOpacity(
+                    opacity: !animated ? 1.0 : 0.0,
+                    duration: const Duration(milliseconds: 300),
+                    child: Visibility(
+                      visible: !animated,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                            width: 120,
+                            height: 120,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                            ),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Lottie.asset('assets/loading.json',
+                                  controller: _loginAnimationController,
+                                  onLoaded: (composition) {
+                                    _loginAnimationController
+                                      ..duration = composition.duration
+                                      ..forward();
+                                  }, height: 120.0, width: 120.0),
+                            )),
+                      ),
+                    )
                   ),
-                ),
-                Visibility(
-                  visible: animated,
-                  child: AnimatedOpacity(
-                    opacity: animated ? 1.0 : 0.0,
-                    duration: const Duration(seconds: 2),
-                    curve: Curves.easeInOut,
+                AnimatedOpacity(
+                  opacity: animated ? 1.0 : 0.0,
+                  duration: const Duration(milliseconds: 1000),
+                  child: Visibility(
+                    visible: animated,
                     child: Align(
                         alignment: Alignment.center,
                         child: Container(
@@ -159,12 +174,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               ],
             ),
           ),
-          Visibility(
-            visible: showForm,
-            child: AnimatedOpacity(
-              opacity: showForm ? 1.0 : 0.0,
-              duration: const Duration(seconds: 2),
-              curve: Curves.easeInOut,
+          AnimatedOpacity(
+            opacity: showForm ? 1.0 : 0.0,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+            child: Visibility(
+              visible: showForm,
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 padding: const EdgeInsets.only(top: 62),
@@ -237,13 +252,24 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           height: 45,
                           width: MediaQuery.of(context).size.width / 1.2,
                           margin: const EdgeInsets.only(top: 20.0),
-                          decoration: const BoxDecoration(
-                              gradient: LinearGradient(colors: [
-                                Color(0xFF1d4ed8),
-                                Color(0xFF3b82f6)
-                              ]),
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Color(0xFF1c66a6),
+                                    Color(0xFF398cbf),
+                                  ]),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(50.0))),
+                                  BorderRadius.all(Radius.circular(50.0)),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.3),
+                                    spreadRadius: 2,
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 2))
+                              ]
+                          ),
                           child: Center(
                             child: Text(
                               'Login'.toUpperCase(),
