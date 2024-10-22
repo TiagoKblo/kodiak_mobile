@@ -10,7 +10,7 @@ import '../models/user_model.dart';
 
 Future<User> login(String email, String password) async {
   final apiUrl = dotenv.env['API_URL'] ?? '';
-  final fullUrl = '$apiUrl/users/login';
+  final fullUrl = '$apiUrl/auth/login';
 
   final Dio dio = Dio();
 
@@ -35,8 +35,11 @@ Future<User> login(String email, String password) async {
     } else {
       throw Exception('Erro inesperado. Tente novamente mais tarde.');
     }
-  } catch (e) {
-    print('Erro ao logar: $e');
-    throw Exception('Erro inesperado!');
+  } on DioException catch (e) {
+    if(e.response?.statusCode == 401) {
+      throw Exception('Dados inválidos. Verifique seu e-mail e senha.');
+    } else {
+      throw Exception('Ocorreu um erro inesperado. tente mais tarde.');
+    }
   }
 }

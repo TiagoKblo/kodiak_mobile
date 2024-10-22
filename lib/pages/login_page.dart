@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               type: PageTransitionType.size, alignment: Alignment.center, duration: const Duration(milliseconds: 300), child: const HomePage(), curve: Curves.easeInOut));
     } catch (e) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Erro ao logar: $e')));
+          .showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
 
