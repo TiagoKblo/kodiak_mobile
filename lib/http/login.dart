@@ -1,38 +1,42 @@
+import 'dart:async';
+
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:path_provider/path_provider.dart';
 
-Future<void> login(String email, String password) async {
+import '../models/user_model.dart';
+
+Future<User> login(String email, String password) async {
+  final apiUrl = dotenv.env['API_URL'] ?? '';
+  final fullUrl = '$apiUrl/users/login';
+
+  final Dio dio = Dio();
+
+  var tempDir = await getTemporaryDirectory();
+  var cookieJar = PersistCookieJar(storage: FileStorage(tempDir.path));
+
+  dio.interceptors.add(CookieManager(cookieJar));
+
   try {
-    final apiUrl = dotenv.env['API_URL'] ?? '';
-    final fullUrl = '$apiUrl/users/login';
+    final response = await dio.post(fullUrl,
+        data: {'email': email, 'password': password},
+        options: Options(headers: {'Content-Type': 'application/json'}));
 
-    Dio dio = Dio();
+    if (response.statusCode == 200) {
+      final data = response.data;
 
-    var tempDir = await getTemporaryDirectory();
-    var cookieJar = PersistCookieJar(storage: FileStorage(tempDir.path));
+      final user = data['user'];
 
-    dio.interceptors.add(CookieManager(cookieJar));
-
-    final response = await dio.post(
-      fullUrl,
-      data: {
-        'email': email,
-        'password': password
-      },
-      options: Options(
-        headers: { 'Content-Type': 'application/json' }
-      )
-    );
-
-    if(response.statusCode == 200) {
-      print('Login bem-sucedido!');
+      return User.fromJson(user);
+    } else if (response.statusCode == 401) {
+      throw Exception('Dados inválidos. Verifique seu e-mail e senha.');
     } else {
-      print('Falha no login!');
+      throw Exception('Erro inesperado. Tente novamente mais tarde.');
     }
   } catch (e) {
     print('Erro ao logar: $e');
+    throw Exception('Erro inesperado!');
   }
 }

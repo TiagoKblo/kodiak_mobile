@@ -1,11 +1,12 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:kodiak/pages/home.dart';
+import 'package:kodiak/models/user_model.dart';
+import 'package:kodiak/pages/home_page.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 
 import '../http/login.dart';
+import '../providers/user_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -76,7 +77,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     }
 
     try {
-      await login(email, password);
+      User user = await login(email, password);
+
+      Provider.of<UserProvider>(context, listen: false).setUser(user);
 
       Navigator.pushReplacement(
           context,

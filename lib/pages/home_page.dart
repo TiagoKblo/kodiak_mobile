@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kodiak/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context).user;
+
     return Scaffold(
       backgroundColor: const Color(0xFFf1faee),
       appBar: AppBar(
@@ -76,23 +80,23 @@ class HomePage extends StatelessWidget {
                 ),
                 Container(
                   margin: const EdgeInsets.only(left: 20),
-                  child: const Column(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Usuário',
-                        style: TextStyle(
+                        user?.name ?? 'Usuário',
+                        style: const TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.w700,
-                            color: const Color(0xFFf1faee)),
+                            color: Color(0xFFf1faee)),
                       ),
                       Text(
-                        'Empresa',
-                        style: TextStyle(fontSize: 16, color: const Color(0xFFf1faee)),
+                        user?.tradeName ?? 'Empresa',
+                        style: const TextStyle(fontSize: 16, color: Color(0xFFf1faee)),
                       ),
                       Text(
-                        'Vendedor',
-                        style: TextStyle(fontSize: 16, color: const Color(0xFFf1faee)),
+                        user?.position ??'Vendedor',
+                        style: const TextStyle(fontSize: 16, color: Color(0xFFf1faee)),
                       )
                     ],
                   ),
