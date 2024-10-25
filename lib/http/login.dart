@@ -30,8 +30,6 @@ Future<User> login(String email, String password) async {
       final user = data['user'];
 
       return User.fromJson(user);
-    } else if (response.statusCode == 401) {
-      throw Exception('Dados inválidos. Verifique seu e-mail e senha.');
     } else {
       throw Exception('Erro inesperado. Tente novamente mais tarde.');
     }

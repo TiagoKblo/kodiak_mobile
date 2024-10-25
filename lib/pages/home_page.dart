@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kodiak/pages/sales_page.dart';
 import 'package:kodiak/providers/user_provider.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,7 +15,6 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFf1faee),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1d4ed8),
         flexibleSpace: Container(
           decoration: BoxDecoration(
               gradient: const LinearGradient(
@@ -33,10 +34,10 @@ class HomePage extends StatelessWidget {
                     offset: const Offset(0, 5))
               ]),
         ),
-        centerTitle: true,
+        // centerTitle: true,
         // title: const Text('Kodiak', style: TextStyle(fontSize: 17, color: Colors.white, letterSpacing: 0.53),),
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(30.0))),
+        //shape: const RoundedRectangleBorder(
+            ///borderRadius: BorderRadius.vertical(bottom: Radius.circular(30.0))),
         // leading: InkWell(
         //   onTap: () {},
         //   child: const Icon(
@@ -116,7 +117,11 @@ class HomePage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    buildSquareButton(CupertinoIcons.bag_fill, 'Vendas', () {}),
+                    buildSquareButton(CupertinoIcons.bag_fill, 'Vendas', () {
+                      Navigator.push(context, PageTransition(
+                        type: PageTransitionType.size, alignment: Alignment.center, duration: const Duration(milliseconds: 300), child: const SalesPage(), curve: Curves.easeInOut
+                      ));
+                    }),
                     buildSquareButton(CupertinoIcons.bag_fill, 'Vendas', () {})
                   ],
                 ),
