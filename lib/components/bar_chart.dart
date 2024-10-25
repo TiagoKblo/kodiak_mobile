@@ -42,69 +42,70 @@ class _BarChartSalesState extends State<BarChartSales> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: AspectRatio(
-        aspectRatio: 1,
-        child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color(0xFF143c8c),
-                      Color(0xFF398cbf),
-                    ]),
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      spreadRadius: 2,
-                      blurRadius: 8,
-                      offset: const Offset(0, 5))
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text(
-                          'Vendas',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+    return AspectRatio(
+      aspectRatio: 1,
+      child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFF143c8c),
+                    Color(0xFF398cbf),
+                  ]),
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withOpacity(0.3),
+                    spreadRadius: 2,
+                    blurRadius: 8,
+                    offset: const Offset(0, 5))
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        'Vendas',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 38,
+                  ),
+                  Expanded(
+                    child: BarChart(
+                      BarChartData(
+                        barTouchData: barTouchData,
+                        titlesData: titlesData,
+                        borderData: FlBorderData(
+                          show: false,
                         ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 38,
-                    ),
-                    Expanded(
-                      child: BarChart(
-                        BarChartData(
-                          barTouchData: barTouchData,
-                          titlesData: titlesData,
-                          borderData: FlBorderData(
-                            show: false,
-                          ),
-                          barGroups: showingBarGroups,
-                          gridData: const FlGridData(show: false),
-                          alignment: BarChartAlignment.spaceAround,
-                          maxY: 20,
-                        ),
+                        barGroups: showingBarGroups,
+                        gridData: const FlGridData(show: false),
+                        alignment: BarChartAlignment.spaceAround,
+                        maxY: 20,
                       ),
                     ),
-                    const SizedBox(
-                      height: 12,
-                    )
-                  ],
-                ),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  )
+                ],
               ),
-            )),
-      ),
+            ),
+          )),
     );
   }
 }
@@ -170,7 +171,7 @@ Widget leftTitles(double value, TitleMeta meta) {
 }
 
 Widget bottomTitles(double value, TitleMeta meta) {
-  final titles = <String>['Mn', 'Te', 'Wd', 'Tu', 'Fr', 'St', 'Su'];
+  final titles = <String>['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'];
 
   final Widget text = Text(
     titles[value.toInt()],
