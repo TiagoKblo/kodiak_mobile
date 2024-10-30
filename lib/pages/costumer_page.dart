@@ -11,6 +11,15 @@ class CostumerPage extends StatefulWidget {
 class _CostumerPageState extends State<CostumerPage> {
   String _optionSelected = 'Selecionar uma opção';
   bool _showDetails = false;
+  final ScrollController _scrollController1 = ScrollController();
+  final ScrollController _scrollController2 = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController1.dispose();
+    _scrollController2.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -181,24 +190,29 @@ class _CostumerPageState extends State<CostumerPage> {
                       ),
                       Expanded(
                         child: Container(
-                            padding: const EdgeInsets.all(16.0),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(16.0),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.3),
-                                    spreadRadius: 2,
-                                    blurRadius: 8,
-                                    offset: const Offset(0, 5))
-                              ],
+                          padding: const EdgeInsets.all(16.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(16.0),
                             ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(16.0),
-                              child: const SingleChildScrollView(
-                                child: Padding(
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black.withOpacity(0.3),
+                                  spreadRadius: 2,
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 5))
+                            ],
+                          ),
+                          child: ClipRRect(
+                            child: RawScrollbar(
+                              thumbVisibility: true,
+                              thickness: 8,
+                              radius: const Radius.circular(15),
+                              thumbColor: const Color(0xFF398cbf),
+                              child: SingleChildScrollView(
+                                controller: _scrollController1,
+                                child: const Padding(
                                   padding: EdgeInsets.all(8.0),
                                   child: Column(
                                     crossAxisAlignment:
@@ -244,37 +258,60 @@ class _CostumerPageState extends State<CostumerPage> {
                                             title: Text('Produto 3'),
                                             subtitle: Text('Descrição 3'),
                                           ),
+                                          ListTile(
+                                            title: Text('Produto 4'),
+                                            subtitle: Text('Descrição 4'),
+                                          ),
+                                          ListTile(
+                                            title: Text('Produto 5'),
+                                            subtitle: Text('Descrição 5'),
+                                          ),
+                                          ListTile(
+                                            title: Text('Produto 6'),
+                                            subtitle: Text('Descrição 6'),
+                                          ),
+                                          ListTile(
+                                            title: Text('Produto 7'),
+                                            subtitle: Text('Descrição 7'),
+                                          ),
                                         ],
                                       )
                                     ],
                                   ),
                                 ),
                               ),
-                            )),
+                            ),
+                          ),
+                        ),
                       ),
                       const SizedBox(
                         height: 24.0,
                       ),
                       Expanded(
                         child: Container(
-                            padding: const EdgeInsets.all(16.0),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(16.0),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.3),
-                                    spreadRadius: 2,
-                                    blurRadius: 8,
-                                    offset: const Offset(0, 5))
-                              ],
+                          padding: const EdgeInsets.all(16.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(16.0),
                             ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(16.0),
-                              child: const SingleChildScrollView(
-                                child: Padding(
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black.withOpacity(0.3),
+                                  spreadRadius: 2,
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 5))
+                            ],
+                          ),
+                          child: ClipRRect(
+                            child: RawScrollbar(
+                              thumbVisibility: true,
+                              thickness: 8,
+                              radius: const Radius.circular(15),
+                              thumbColor: const Color(0xFF398cbf),
+                              child: SingleChildScrollView(
+                                controller: _scrollController2,
+                                child: const Padding(
                                   padding: EdgeInsets.all(8.0),
                                   child: Column(
                                     crossAxisAlignment:
@@ -329,6 +366,20 @@ class _CostumerPageState extends State<CostumerPage> {
                                               style: TextStyle(fontSize: 14),
                                             ),
                                           ),
+                                          ListTile(
+                                            title: Text('Compra 4'),
+                                            trailing: Text(
+                                              'Valor: R\$1.268',
+                                              style: TextStyle(fontSize: 14),
+                                            ),
+                                          ),
+                                          ListTile(
+                                            title: Text('Compra 5'),
+                                            trailing: Text(
+                                              'Valor: R\$10.000',
+                                              style: TextStyle(fontSize: 14),
+                                            ),
+                                          ),
                                           Row(
                                             children: [
                                               Expanded(
@@ -344,7 +395,7 @@ class _CostumerPageState extends State<CostumerPage> {
                                           ListTile(
                                             title: Text('Total comprado:'),
                                             trailing: Text(
-                                              'Valor: R\$10.500',
+                                              'Valor: R\$21.768',
                                               style: TextStyle(fontSize: 14),
                                             ),
                                           ),
@@ -354,7 +405,9 @@ class _CostumerPageState extends State<CostumerPage> {
                                   ),
                                 ),
                               ),
-                            )),
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
