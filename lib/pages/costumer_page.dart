@@ -19,7 +19,7 @@ class _CostumerPageState extends State<CostumerPage> {
           toolbarHeight: MediaQuery.of(context).size.height / 12,
           leadingWidth: 90,
           leading: Container(
-            padding: EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.only(left: 10),
             child: IconButton(
               icon: const Row(
                 children: [
@@ -84,7 +84,7 @@ class _CostumerPageState extends State<CostumerPage> {
                       decoration: BoxDecoration(
                         color: Colors.transparent,
                         borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(color: Color(0xffe4e4e7)),
+                        border: Border.all(color: const Color(0xffe4e4e7)),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -116,12 +116,13 @@ class _CostumerPageState extends State<CostumerPage> {
               child: Container(
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Color(0xFF143c8c),
-                        Color(0xFF398cbf),
-                      ]),
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color(0xFF143c8c),
+                      Color(0xFF398cbf),
+                    ],
+                  ),
                   borderRadius:
                       const BorderRadius.vertical(top: Radius.circular(30)),
                   boxShadow: [
@@ -137,6 +138,47 @@ class _CostumerPageState extends State<CostumerPage> {
                       vertical: 32.0, horizontal: 24.0),
                   child: Column(
                     children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Sobre:',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 4.0,
+                          ),
+                          Text(
+                            _optionSelected,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 12.0,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Divider(
+                                  color: Colors.grey.shade300,
+                                  thickness: 1,
+                                  indent: 8,
+                                  endIndent: 8,
+                                ),
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 12.0,
+                          ),
+                        ],
+                      ),
                       Expanded(
                         child: Container(
                             padding: const EdgeInsets.all(16.0),
@@ -155,50 +197,14 @@ class _CostumerPageState extends State<CostumerPage> {
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(16.0),
-                              child: SingleChildScrollView(
+                              child: const SingleChildScrollView(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: EdgeInsets.all(8.0),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
-                                        'Sobre:',
-                                        style: TextStyle(
-                                          color: Color(0xFF143c8c),
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 4.0,
-                                      ),
-                                      Text(
-                                        _optionSelected,
-                                        style: const TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 12.0,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Divider(
-                                              color: Colors.grey.shade300,
-                                              thickness: 1,
-                                              indent: 8,
-                                              endIndent: 8,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 12.0,
-                                      ),
-                                      const Column(
+                                      Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
@@ -247,7 +253,7 @@ class _CostumerPageState extends State<CostumerPage> {
                             )),
                       ),
                       const SizedBox(
-                        height: 32.0,
+                        height: 24.0,
                       ),
                       Expanded(
                         child: Container(
@@ -378,8 +384,18 @@ class _CostumerPageState extends State<CostumerPage> {
       builder: (BuildContext context) {
         return Container(
           decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFF143c8c),
+                Color(0xFF398cbf),
+              ],
+            ),
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(20),
+            ),
+          ),
           height: MediaQuery.of(context).size.height,
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Padding(
@@ -389,30 +405,40 @@ class _CostumerPageState extends State<CostumerPage> {
               itemCount: options.length,
               itemBuilder: (context, index) {
                 return Container(
-                  margin: const EdgeInsets.symmetric(vertical: 8.0),
+                  margin: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 2.0),
                   decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Color(0xFF143c8c),
-                          Color(0xFF398cbf),
-                        ]),
+                    color: Colors.white,
                     borderRadius: BorderRadius.all(
                       Radius.circular(8.0),
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black26,
+                          spreadRadius: 0,
+                          blurRadius: 1,
+                          offset: Offset(0, 1))
+                    ],
                   ),
                   child: ListTile(
+                    leading: const Icon(
+                      CupertinoIcons.building_2_fill,
+                      color: Color(0xFF143c8c),
+                    ),
                     title: Text(
                       options[index],
-                      style:
-                          const TextStyle(color: Colors.white, fontSize: 18.0),
+                      style: const TextStyle(
+                        color: Color(0xFF143c8c),
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     trailing: Icon(
                       _optionSelected == options[index]
                           ? CupertinoIcons.check_mark_circled
                           : CupertinoIcons.circle,
-                      color: Colors.white,
+                      color: const Color(0xFF143c8c),
+                      size: 18,
                     ),
                     contentPadding:
                         const EdgeInsets.symmetric(horizontal: 24.0),
