@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kodiak/pages/costumer_page.dart';
 import 'package:kodiak/pages/sales_page.dart';
 import 'package:kodiak/providers/user_provider.dart';
 import 'package:page_transition/page_transition.dart';
@@ -37,7 +38,7 @@ class HomePage extends StatelessWidget {
         // centerTitle: true,
         // title: const Text('Kodiak', style: TextStyle(fontSize: 17, color: Colors.white, letterSpacing: 0.53),),
         //shape: const RoundedRectangleBorder(
-            ///borderRadius: BorderRadius.vertical(bottom: Radius.circular(30.0))),
+        ///borderRadius: BorderRadius.vertical(bottom: Radius.circular(30.0))),
         // leading: InkWell(
         //   onTap: () {},
         //   child: const Icon(
@@ -48,17 +49,17 @@ class HomePage extends StatelessWidget {
         actions: [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: InkWell(
-                  onTap: () {},
-                  borderRadius: BorderRadius.circular(8),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Icon(
-                      CupertinoIcons.arrow_right_to_line,
-                      size: 30,
-                      color: const Color(0xFFf1faee),
-                    ),
-                  )),
+            child: InkWell(
+                onTap: () {},
+                borderRadius: BorderRadius.circular(8),
+                child: const Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Icon(
+                    CupertinoIcons.arrow_right_to_line,
+                    size: 30,
+                    color: const Color(0xFFf1faee),
+                  ),
+                )),
           )
         ],
         bottom: PreferredSize(
@@ -93,11 +94,13 @@ class HomePage extends StatelessWidget {
                       ),
                       Text(
                         user?.tradeName ?? 'Empresa',
-                        style: const TextStyle(fontSize: 16, color: Color(0xFFf1faee)),
+                        style: const TextStyle(
+                            fontSize: 16, color: Color(0xFFf1faee)),
                       ),
                       Text(
-                        user?.position ??'Vendedor',
-                        style: const TextStyle(fontSize: 16, color: Color(0xFFf1faee)),
+                        user?.position ?? 'Vendedor',
+                        style: const TextStyle(
+                            fontSize: 16, color: Color(0xFFf1faee)),
                       )
                     ],
                   ),
@@ -118,11 +121,26 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     buildSquareButton(CupertinoIcons.bag_fill, 'Vendas', () {
-                      Navigator.push(context, PageTransition(
-                        type: PageTransitionType.size, alignment: Alignment.center, duration: const Duration(milliseconds: 300), child: const SalesPage(), curve: Curves.easeInOut
-                      ));
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.size,
+                              alignment: Alignment.center,
+                              duration: const Duration(milliseconds: 300),
+                              child: const SalesPage(),
+                              curve: Curves.easeInOut));
                     }),
-                    buildSquareButton(CupertinoIcons.bag_fill, 'Vendas', () {})
+                    buildSquareButton(CupertinoIcons.person_2_alt, 'Clientes',
+                        () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.size,
+                              alignment: Alignment.center,
+                              duration: const Duration(milliseconds: 300),
+                              child: CostumerPage(),
+                              curve: Curves.easeInOut));
+                    })
                   ],
                 ),
               ),
@@ -224,7 +242,8 @@ Widget buildSquareButton(IconData icon, String label, VoidCallback onPressed) {
                 ),
                 Text(
                   label,
-                  style: const TextStyle(color: const Color(0xFFf1faee), fontSize: 24),
+                  style: const TextStyle(
+                      color: const Color(0xFFf1faee), fontSize: 24),
                 )
               ],
             ))),
