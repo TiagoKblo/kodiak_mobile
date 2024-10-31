@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kodiak/components/app_bar.dart';
 
 class CostumerPage extends StatefulWidget {
   const CostumerPage({super.key});
@@ -24,57 +25,13 @@ class _CostumerPageState extends State<CostumerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          toolbarHeight: MediaQuery.of(context).size.height / 12,
-          leadingWidth: 90,
-          leading: Container(
-            padding: const EdgeInsets.only(left: 10),
-            child: IconButton(
-              icon: const Row(
-                children: [
-                  Icon(
-                    CupertinoIcons.chevron_left,
-                    color: Colors.white,
-                  ),
-                  Text(
-                    'Voltar',
-                    style: TextStyle(color: Colors.white),
-                  )
-                ],
-              ),
-              onPressed: () {
-                if (Navigator.canPop(context)) {
-                  Navigator.pop(context);
-                }
-              },
-            ),
-          ),
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xFF143c8c),
-                    Color(0xFF398cbf),
-                  ]),
-              borderRadius:
-                  const BorderRadius.vertical(bottom: Radius.circular(30)),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
-                    spreadRadius: 2,
-                    blurRadius: 8,
-                    offset: const Offset(0, 5))
-              ],
-            ),
-          ),
-          title: const Text(
-            'Clientes',
-            style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.w600, fontSize: 28),
-          ),
-          centerTitle: true,
+        appBar: CustomAppBar(
+          title: 'Clientes',
+          onBackPressed: () {
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            }
+          },
         ),
         body: Stack(
           children: [
@@ -204,80 +161,70 @@ class _CostumerPageState extends State<CostumerPage> {
                                   offset: const Offset(0, 5))
                             ],
                           ),
-                          child: ClipRRect(
-                            child: RawScrollbar(
-                              thumbVisibility: true,
-                              thickness: 8,
-                              radius: const Radius.circular(15),
-                              thumbColor: const Color(0xFF398cbf),
-                              child: SingleChildScrollView(
-                                controller: _scrollController1,
-                                child: const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                CupertinoIcons.cube_fill,
-                                                color: Color(0xFF143c8c),
-                                                size: 18,
-                                              ),
-                                              SizedBox(
-                                                width: 8.0,
-                                              ),
-                                              Text(
-                                                'Produtos mais comprados',
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Color(0xFF143c8c),
-                                                ),
-                                              ),
-                                            ],
+                          child: const RawScrollbar(
+                            thumbVisibility: true,
+                            thickness: 8,
+                            radius: Radius.circular(15),
+                            thumbColor: Color(0xFF398cbf),
+                            child: SingleChildScrollView(
+                              child: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          CupertinoIcons.cube_fill,
+                                          color: Color(0xFF143c8c),
+                                          size: 18,
+                                        ),
+                                        SizedBox(
+                                          width: 8.0,
+                                        ),
+                                        Text(
+                                          'Produtos mais comprados',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(0xFF143c8c),
                                           ),
-                                          ListTile(
-                                            title: Text('Produto 1'),
-                                            subtitle: Text('Descrição 1'),
-                                          ),
-                                          ListTile(
-                                            title: Text('Produto 2'),
-                                            subtitle: Text('Descrição 2'),
-                                          ),
-                                          ListTile(
-                                            title: Text('Produto 3'),
-                                            subtitle: Text('Descrição 3'),
-                                          ),
-                                          ListTile(
-                                            title: Text('Produto 4'),
-                                            subtitle: Text('Descrição 4'),
-                                          ),
-                                          ListTile(
-                                            title: Text('Produto 5'),
-                                            subtitle: Text('Descrição 5'),
-                                          ),
-                                          ListTile(
-                                            title: Text('Produto 6'),
-                                            subtitle: Text('Descrição 6'),
-                                          ),
-                                          ListTile(
-                                            title: Text('Produto 7'),
-                                            subtitle: Text('Descrição 7'),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
+                                        ),
+                                      ],
+                                    ),
+                                    ListTile(
+                                      title: Text('Produto 1'),
+                                      subtitle: Text('Descrição 1'),
+                                    ),
+                                    ListTile(
+                                      title: Text('Produto 2'),
+                                      subtitle: Text('Descrição 2'),
+                                    ),
+                                    ListTile(
+                                      title: Text('Produto 3'),
+                                      subtitle: Text('Descrição 3'),
+                                    ),
+                                    ListTile(
+                                      title: Text('Produto 4'),
+                                      subtitle: Text('Descrição 4'),
+                                    ),
+                                    ListTile(
+                                      title: Text('Produto 5'),
+                                      subtitle: Text('Descrição 5'),
+                                    ),
+                                    ListTile(
+                                      title: Text('Produto 6'),
+                                      subtitle: Text('Descrição 6'),
+                                    ),
+                                    ListTile(
+                                      title: Text('Produto 7'),
+                                      subtitle: Text('Descrição 7'),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -303,106 +250,96 @@ class _CostumerPageState extends State<CostumerPage> {
                                   offset: const Offset(0, 5))
                             ],
                           ),
-                          child: ClipRRect(
-                            child: RawScrollbar(
-                              thumbVisibility: true,
-                              thickness: 8,
-                              radius: const Radius.circular(15),
-                              thumbColor: const Color(0xFF398cbf),
-                              child: SingleChildScrollView(
-                                controller: _scrollController2,
-                                child: const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                CupertinoIcons.bag_fill,
-                                                color: Color(0xFF143c8c),
-                                                size: 18,
-                                              ),
-                                              SizedBox(
-                                                width: 8.0,
-                                              ),
-                                              Text(
-                                                'Últimas compras',
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Color(0xFF143c8c),
-                                                ),
-                                              ),
-                                            ],
+                          child: RawScrollbar(
+                            thumbVisibility: true,
+                            thickness: 8,
+                            radius: const Radius.circular(15),
+                            thumbColor: const Color(0xFF398cbf),
+                            child: SingleChildScrollView(
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          CupertinoIcons.bag_fill,
+                                          color: Color(0xFF143c8c),
+                                          size: 18,
+                                        ),
+                                        SizedBox(
+                                          width: 8.0,
+                                        ),
+                                        Text(
+                                          'Últimas compras',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(0xFF143c8c),
                                           ),
-                                          ListTile(
-                                            title: Text('Compra 1'),
-                                            trailing: Text(
-                                              'Valor: R\$2.000',
-                                              style: TextStyle(fontSize: 14),
-                                            ),
-                                          ),
-                                          ListTile(
-                                            title: Text('Compra 2'),
-                                            trailing: Text(
-                                              'Valor: R\$5.500',
-                                              style: TextStyle(fontSize: 14),
-                                            ),
-                                          ),
-                                          ListTile(
-                                            title: Text('Compra 3'),
-                                            trailing: Text(
-                                              'Valor: R\$3.000',
-                                              style: TextStyle(fontSize: 14),
-                                            ),
-                                          ),
-                                          ListTile(
-                                            title: Text('Compra 4'),
-                                            trailing: Text(
-                                              'Valor: R\$1.268',
-                                              style: TextStyle(fontSize: 14),
-                                            ),
-                                          ),
-                                          ListTile(
-                                            title: Text('Compra 5'),
-                                            trailing: Text(
-                                              'Valor: R\$10.000',
-                                              style: TextStyle(fontSize: 14),
-                                            ),
-                                          ),
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                child: Divider(
-                                                  color: Colors.grey,
-                                                  thickness: 1,
-                                                  indent: 8,
-                                                  endIndent: 8,
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          ListTile(
-                                            title: Text('Total comprado:'),
-                                            trailing: Text(
-                                              'Valor: R\$21.768',
-                                              style: TextStyle(fontSize: 14),
-                                            ),
-                                          ),
-                                        ],
+                                        ),
+                                      ],
+                                    ),
+                                    ListTile(
+                                      title: Text('Compra 1'),
+                                      trailing: Text(
+                                        'Valor: R\$2.000',
+                                        style: TextStyle(fontSize: 14),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    ListTile(
+                                      title: Text('Compra 2'),
+                                      trailing: Text(
+                                        'Valor: R\$5.500',
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                    ),
+                                    ListTile(
+                                      title: Text('Compra 3'),
+                                      trailing: Text(
+                                        'Valor: R\$3.000',
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                    ),
+                                    ListTile(
+                                      title: Text('Compra 4'),
+                                      trailing: Text(
+                                        'Valor: R\$1.268',
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                    ),
+                                    ListTile(
+                                      title: Text('Compra 5'),
+                                      trailing: Text(
+                                        'Valor: R\$10.000',
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Divider(
+                                            color: Colors.grey,
+                                            thickness: 1,
+                                            indent: 8,
+                                            endIndent: 8,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    ListTile(
+                                      title: Text('Total comprado:'),
+                                      trailing: Text(
+                                        'Valor: R\$21.768',
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
