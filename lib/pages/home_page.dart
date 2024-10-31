@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kodiak/pages/costumer_page/costumer_page.dart';
-import 'package:kodiak/pages/sales_page.dart';
+import 'package:kodiak/pages/sales_page/sales_page.dart';
 import 'package:kodiak/providers/user_provider.dart';
+import 'package:kodiak/utils/constants.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
@@ -14,17 +15,14 @@ class HomePage extends StatelessWidget {
     final user = Provider.of<UserProvider>(context).user;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFf1faee),
+      backgroundColor: const Color(white),
       appBar: AppBar(
         flexibleSpace: Container(
           decoration: BoxDecoration(
               gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xFF143c8c),
-                    Color(0xFF398cbf),
-                  ]),
+                  colors: [Color(darkBlue), Color(lightBlue)]),
               borderRadius:
                   const BorderRadius.vertical(bottom: Radius.circular(30)),
               boxShadow: [
@@ -57,7 +55,7 @@ class HomePage extends StatelessWidget {
                   child: Icon(
                     CupertinoIcons.arrow_right_to_line,
                     size: 30,
-                    color: const Color(0xFFf1faee),
+                    color: Color(white),
                   ),
                 )),
           )
@@ -72,7 +70,7 @@ class HomePage extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 56.0,
-                      backgroundColor: const Color(0xFFf1faee),
+                      backgroundColor: Color(white),
                       child: Icon(
                         Icons.person_outline_rounded,
                         size: 40,
@@ -88,19 +86,22 @@ class HomePage extends StatelessWidget {
                       Text(
                         user?.name ?? 'Usuário',
                         style: const TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xFFf1faee)),
+                          fontSize: 32,
+                          fontWeight: FontWeight.w700,
+                          color: Color(white),
+                        ),
                       ),
                       Text(
                         user?.tradeName ?? 'Empresa',
                         style: const TextStyle(
-                            fontSize: 16, color: Color(0xFFf1faee)),
+                          fontSize: 16,
+                          color: Color(white),
+                        ),
                       ),
                       Text(
                         user?.position ?? 'Vendedor',
-                        style: const TextStyle(
-                            fontSize: 16, color: Color(0xFFf1faee)),
+                        style:
+                            const TextStyle(fontSize: 16, color: Color(white)),
                       )
                     ],
                   ),
@@ -166,86 +167,54 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-      // bottomNavigationBar: Padding(
-      //   padding: const EdgeInsets.all(8.0),
-      //   child: Container(
-      //     height: 80,
-      //     decoration: BoxDecoration(
-      //       color: Color(0xFF1d4ed8),
-      //       borderRadius: BorderRadius.all(Radius.circular(30))),
-      //     child: Row(
-      //       children: [
-      //         Expanded(child: InkWell(
-      //           onTap: () {},
-      //           child: Icon(
-      //             CupertinoIcons.book_fill,
-      //             color: Colors.white,
-      //           ),
-      //         ),),
-      //         Expanded(child: InkWell(
-      //           onTap: () {},
-      //           child: Icon(
-      //             CupertinoIcons.person_crop_circle,
-      //             color: Colors.white,
-      //           ),
-      //         ),),
-      //         Expanded(child: InkWell(
-      //           onTap: () {},
-      //           child: Icon(
-      //             CupertinoIcons.arrow_right_to_line,
-      //             color: Colors.white,
-      //           ),
-      //         ),),
-      //       ],
-      //     ),
-      //     ),
-      // ),
     );
   }
 }
 
 Widget buildSquareButton(IconData icon, String label, VoidCallback onPressed) {
   return Expanded(
-      child: AspectRatio(
-    aspectRatio: 1,
-    child: GestureDetector(
+    child: AspectRatio(
+      aspectRatio: 1,
+      child: GestureDetector(
         onTap: onPressed,
         child: Container(
-            margin: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color(0xFF143c8c),
-                      Color(0xFF398cbf),
-                    ]),
-                color: const Color(0xFF1d4ed8),
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      spreadRadius: 2,
-                      blurRadius: 8,
-                      offset: const Offset(0, 5))
-                ]),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  icon,
-                  size: 80,
-                  color: const Color(0xFFf1faee),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  label,
-                  style: const TextStyle(
-                      color: const Color(0xFFf1faee), fontSize: 24),
-                )
-              ],
-            ))),
-  ));
+          margin: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(darkBlue),
+                    Color(lightBlue),
+                  ]),
+              color: const Color(darkBlue),
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withOpacity(0.3),
+                    spreadRadius: 2,
+                    blurRadius: 8,
+                    offset: const Offset(0, 5))
+              ]),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 80,
+                color: const Color(white),
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              Text(
+                label,
+                style: const TextStyle(color: Color(white), fontSize: 24),
+              )
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
 }
