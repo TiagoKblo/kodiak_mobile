@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kodiak/pages/costumer_page.dart';
+import 'package:kodiak/pages/costumer_page/costumer_page.dart';
 import 'package:kodiak/pages/sales_page.dart';
 import 'package:kodiak/providers/user_provider.dart';
 import 'package:page_transition/page_transition.dart';
