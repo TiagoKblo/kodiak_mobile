@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:kodiak/http/top_selling_products.dart';
 import 'package:kodiak/models/top_selling_products.dart';
 import 'package:kodiak/utils/constants.dart';
@@ -93,41 +94,103 @@ class _MostPurchasedProductsState extends State<MostPurchasedProducts> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '${index + 1}',
+                                  '${index + 1}º',
                                   style: const TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                     color: Color(white),
                                   ),
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
-                                  child: Text(
-                                    product.descriptionProduct,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
+                                    child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          'Nome:',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(white),
+                                          ),
+                                        ),
+                                        Text(
+                                          product.descriptionProduct,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            color: Color(white),
+                                          ),
+                                          softWrap: true,
+                                          overflow: TextOverflow.visible,
+                                        ),
+                                      ],
                                     ),
-                                    softWrap: true,
-                                    overflow: TextOverflow.visible,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  product.totalSelling,
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  'R\$${product.totalSalesValue}',
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                                    const SizedBox(height: 8),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              'Qtd:',
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(white),
+                                              ),
+                                            ),
+                                            Text(
+                                              NumberFormat.decimalPattern(
+                                                      'pt_BR')
+                                                  .format(
+                                                double.parse(
+                                                        product.totalSelling)
+                                                    .toInt(),
+                                              ),
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Color(white),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(width: 16),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              'Total:',
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(white),
+                                              ),
+                                            ),
+                                            Text(
+                                              NumberFormat.currency(
+                                                      locale: 'pt_BR',
+                                                      symbol: 'R\$')
+                                                  .format(double.parse(
+                                                      product.totalSalesValue)),
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Color(white),
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                )),
                               ],
                             ),
                           );
