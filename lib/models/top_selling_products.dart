@@ -27,9 +27,10 @@ class TopSellingProducts {
   TopSellingProducts({required this.topSellingProducts});
 
   factory TopSellingProducts.fromJson(Map<String, dynamic> json) {
-    var list = json['topProducts'] as List;
-    List<Product> productsList = list.map((i) => Product.fromJson(i)).toList();
-
-    return TopSellingProducts(topSellingProducts: productsList);
+    return TopSellingProducts(
+      topSellingProducts: (json['topProducts'] as List)
+          .map((i) => Product.fromJson(i))
+          .toList(),
+    );
   }
 }

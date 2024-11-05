@@ -139,7 +139,7 @@ class HomePage extends StatelessWidget {
                               type: PageTransitionType.size,
                               alignment: Alignment.center,
                               duration: const Duration(milliseconds: 300),
-                              child: CostumerPage(),
+                              child: const CostumerPage(),
                               curve: Curves.easeInOut));
                     })
                   ],

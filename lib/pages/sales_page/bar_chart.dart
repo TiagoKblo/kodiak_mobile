@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:kodiak/http/sales_by_day_of_the_last_week.dart';
+import 'package:kodiak/http/get_sales_by_day_of_the_last_week.dart';
 import 'package:kodiak/models/sales_by_day_of_the_last_week.dart';
 
 class BarChartSales extends StatefulWidget {

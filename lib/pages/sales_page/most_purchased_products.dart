@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:kodiak/http/top_selling_products.dart';
+import 'package:kodiak/http/get_top_selling_products.dart';
 import 'package:kodiak/models/top_selling_products.dart';
 import 'package:kodiak/utils/constants.dart';
 

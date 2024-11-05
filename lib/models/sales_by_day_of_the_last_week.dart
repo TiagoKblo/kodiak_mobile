@@ -24,10 +24,10 @@ class SalesByDayOfTheLastWeek {
   SalesByDayOfTheLastWeek({required this.salesByDayOfTheLastWeek});
 
   factory SalesByDayOfTheLastWeek.fromJson(Map<String, dynamic> json) {
-    var list = json['salesByDay'] as List;
-    List<SalesByDay> salesList =
-        list.map((i) => SalesByDay.fromJson(i)).toList();
-
-    return SalesByDayOfTheLastWeek(salesByDayOfTheLastWeek: salesList);
+    return SalesByDayOfTheLastWeek(
+      salesByDayOfTheLastWeek: (json['salesByDay'] as List)
+          .map((i) => SalesByDay.fromJson(i))
+          .toList(),
+    );
   }
 }
