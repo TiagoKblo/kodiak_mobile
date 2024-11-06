@@ -1,16 +1,47 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:kodiak/http/get_customer_product_and_purchase_history.dart';
+import 'package:kodiak/models/customer_product_and_purchase_history.dart';
 
 import '../../utils/constants.dart';
 
-class DetailsContainer extends StatelessWidget {
-  final String optionSelected;
+class DetailsContainer extends StatefulWidget {
+  final int idCustomer;
   final ScrollController scrollController;
 
   const DetailsContainer(
-      {super.key,
-      required this.optionSelected,
-      required this.scrollController});
+      {super.key, required this.idCustomer, required this.scrollController});
+
+  @override
+  State<DetailsContainer> createState() => _DetailsContainerState();
+}
+
+class _DetailsContainerState extends State<DetailsContainer> {
+  late Future<CustomerHistory> _customerHistory;
+  late int _currentCustomerId = widget.idCustomer;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchCustomerHistory(_currentCustomerId);
+  }
+
+  void _fetchCustomerHistory(int idCustomer) {
+    _customerHistory =
+        getCustomerProductAndPurchaseHistory(idCustomer: idCustomer.toString());
+  }
+
+  @override
+  void didUpdateWidget(DetailsContainer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.idCustomer != _currentCustomerId) {
+      setState(() {
+        _currentCustomerId = widget.idCustomer;
+        _fetchCustomerHistory(_currentCustomerId);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,17 +68,41 @@ class DetailsContainer extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 24.0),
         child: Column(
           children: [
-            _buildDetailsHeader(),
-            _buildMostPurchasedProducts(),
-            const SizedBox(height: 24.0),
-            _buildLatestSales(),
+            Expanded(
+              child: FutureBuilder<CustomerHistory>(
+                future: _customerHistory,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Erro: ${snapshot.error}'));
+                  }
+
+                  if (snapshot.hasData) {
+                    return Column(
+                      children: [
+                        _buildDetailsHeader(snapshot.data!.companyName),
+                        _buildMostPurchasedProducts(snapshot.data!.topProducts),
+                        const SizedBox(height: 24.0),
+                        _buildLatestPurchases(snapshot.data!.lastPurchases,
+                            snapshot.data!.totalLastPurchases),
+                      ],
+                    );
+                  }
+
+                  return const Center(child: Text('Sem dados disponíveis.'));
+                },
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildDetailsHeader() {
+  Widget _buildDetailsHeader(String companyName) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -59,7 +114,7 @@ class DetailsContainer extends StatelessWidget {
             )),
         const SizedBox(height: 4.0),
         Text(
-          optionSelected,
+          companyName,
           style: const TextStyle(fontSize: 18, color: Colors.white),
         ),
         const SizedBox(height: 12.0),
@@ -80,36 +135,161 @@ class DetailsContainer extends StatelessWidget {
     );
   }
 
-  Widget _buildMostPurchasedProducts() {
+  Widget _buildMostPurchasedProducts(List<TopProducts> topProducts) {
     return _buildScrollableContainer(
       title: _buildScrollableContainerTitle(
         icon: CupertinoIcons.cube_fill,
         title: 'Produtos mais comprados',
       ),
       list: Column(
-        children: List.generate(8, (index) {
-          return ListTile(
-            title: Text('Produto ${index + 1}'),
-            subtitle: Text('Descrição ${index + 1}'),
+        children: topProducts.map((product) {
+          return Column(
+            children: [
+              ListTile(
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Produto:',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: Color(darkBlue),
+                      ),
+                    ),
+                    Text(
+                      product.productDescription,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+                subtitle: Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Qtd:',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Color(darkBlue),
+                          ),
+                        ),
+                        Text(
+                          NumberFormat.decimalPattern('pt_BR').format(
+                              double.parse(product.productCount).toInt()),
+                          style: const TextStyle(fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(width: 24.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Total:',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Color(darkBlue),
+                          ),
+                        ),
+                        Text(
+                          'R\$ ${NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$').format(double.parse(product.total))}',
+                          style: const TextStyle(fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              const Divider(
+                indent: 16,
+                endIndent: 16,
+              ),
+            ],
           );
-        }),
+        }).toList(),
       ),
     );
   }
 
-  Widget _buildLatestSales() {
+  Widget _buildLatestPurchases(
+      List<LastPurchases> lastPurchases, String totalPurchasesValue) {
     return _buildScrollableContainer(
       title: _buildScrollableContainerTitle(
         icon: CupertinoIcons.bag_fill,
         title: 'Últimas compras',
       ),
       list: Column(children: [
-        ...List.generate(5, (index) {
+        ...lastPurchases.map((purchase) {
           return ListTile(
-            title: Text('Compra ${index + 1}'),
-            trailing: Text(
-              'Valor: R\$${(index + 1) * 1000}',
-              style: const TextStyle(fontSize: 14),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Produto:',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Color(darkBlue),
+                  ),
+                ),
+                Text(
+                  purchase.productDescription,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+            subtitle: Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Data:',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Color(darkBlue),
+                      ),
+                    ),
+                    const SizedBox(width: 2),
+                    Text(
+                      DateFormat('dd/MM/yyyy')
+                          .format(DateTime.parse(purchase.issueDate)),
+                      style: const TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+                const SizedBox(width: 24.0),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Valor:',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Color(darkBlue),
+                      ),
+                    ),
+                    const SizedBox(width: 2),
+                    Text(
+                      NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$')
+                          .format(double.parse(purchase.total)),
+                      style: const TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+              ],
             ),
           );
         }),
@@ -123,9 +303,19 @@ class DetailsContainer extends StatelessWidget {
             ),
           )
         ]),
-        const ListTile(
-          title: Text('Total comprado:'),
-          trailing: Text('Valor: R\$15.000', style: TextStyle(fontSize: 14)),
+        ListTile(
+          title: const Text(
+            'Total comprado:',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Color(darkBlue),
+            ),
+          ),
+          trailing: Text(
+              NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$')
+                  .format(double.parse(totalPurchasesValue)),
+              style: const TextStyle(fontSize: 14)),
         ),
       ]),
     );
@@ -155,7 +345,7 @@ class DetailsContainer extends StatelessWidget {
           radius: const Radius.circular(15),
           thumbColor: const Color(lightBlue),
           child: SingleChildScrollView(
-            controller: scrollController,
+            controller: widget.scrollController,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(

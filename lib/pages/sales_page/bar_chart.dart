@@ -34,8 +34,6 @@ class _BarChartSalesState extends State<BarChartSales> {
             .entries
             .map((entry) =>
                 makeGroupData(entry.key, entry.value.salesCount.toDouble()))
-            .toList()
-            .reversed
             .toList();
       });
     } catch (e) {

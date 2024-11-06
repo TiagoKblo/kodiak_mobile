@@ -13,22 +13,22 @@ class TopProducts {
 
   factory TopProducts.fromJson(Map<String, dynamic> json) {
     return TopProducts(
-      productId: json['productId'],
-      productDescription: json['productDescription'],
-      productCount: json['productCount'],
-      total: json['total'],
+      productId: json['productId'] ?? '',
+      productDescription: json['productDescription'] ?? '',
+      productCount: json['productCount']?.toString() ?? '0',
+      total: json['total']?.toString() ?? '0',
     );
   }
 }
 
-class LastPurchase {
+class LastPurchases {
   final String issueDate;
   final String productId;
   final String productDescription;
   final String quantity;
   final String total;
 
-  LastPurchase({
+  LastPurchases({
     required this.issueDate,
     required this.productId,
     required this.productDescription,
@@ -36,13 +36,13 @@ class LastPurchase {
     required this.total,
   });
 
-  factory LastPurchase.fromJson(Map<String, dynamic> json) {
-    return LastPurchase(
-      issueDate: json['issueDate'],
-      productId: json['productId'],
-      productDescription: json['productDescription'],
-      quantity: json['quantity'],
-      total: json['total'],
+  factory LastPurchases.fromJson(Map<String, dynamic> json) {
+    return LastPurchases(
+      issueDate: json['issueDate'] ?? '',
+      productId: json['productId'] ?? '',
+      productDescription: json['productDescription'] ?? '',
+      quantity: json['quantity']?.toString() ?? '0',
+      total: json['total']?.toString() ?? '0',
     );
   }
 }
@@ -51,28 +51,41 @@ class CustomerHistory {
   final int idCustomer;
   final String companyName;
   final List<TopProducts> topProducts;
-  final List<LastPurchase> lastPurchase;
-  final String totalLastPurchase;
+  final List<LastPurchases> lastPurchases;
+  final String totalLastPurchases;
 
   CustomerHistory({
     required this.idCustomer,
     required this.companyName,
     required this.topProducts,
-    required this.lastPurchase,
-    required this.totalLastPurchase,
+    required this.lastPurchases,
+    required this.totalLastPurchases,
   });
 
   factory CustomerHistory.fromJson(Map<String, dynamic> json) {
+    final customerHistory = json['customerHistory'];
     return CustomerHistory(
-      idCustomer: json['idCustomer'],
-      companyName: json['companyName'],
-      topProducts: (json['topProducts'] as List)
+      idCustomer: customerHistory['idCustomer'],
+      companyName: customerHistory['companyName'],
+      topProducts: (customerHistory['topProducts'] as List)
           .map((item) => TopProducts.fromJson(item))
           .toList(),
-      lastPurchase: (json['lastPurchase'] as List)
-          .map((item) => LastPurchase.fromJson(item))
+      lastPurchases: (customerHistory['lastPurchases'] as List)
+          .map((item) => LastPurchases.fromJson(item))
           .toList(),
-      totalLastPurchase: json['totalLastPurchase'],
+      totalLastPurchases: customerHistory['totalLastPurchases'],
     );
   }
 }
+
+// class CustomerHistoryResponse {
+//   final CustomerHistory customerHistory;
+//
+//   CustomerHistoryResponse({required this.customerHistory});
+//
+//   factory CustomerHistoryResponse.fromJson(Map<String, dynamic> json) {
+//     return CustomerHistoryResponse(
+//       customerHistory: CustomerHistory.fromJson(json['customerHistory']),
+//     );
+//   }
+// }

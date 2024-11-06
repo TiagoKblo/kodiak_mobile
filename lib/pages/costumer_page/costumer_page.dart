@@ -18,10 +18,11 @@ class _CostumerPageState extends State<CostumerPage> {
   String _optionSelected = 'Selecionar uma opção';
   bool _showDetails = false;
   final ScrollController _scrollController = ScrollController();
-  late Future<List<String>> _allCustomersFuture;
-  List<String> _allCustomers = [];
-  List<String> _filteredOptions = [];
+  late Future<List<Customer>> _allCustomersFuture;
+  List<Customer> _allCustomers = [];
+  List<Customer> _filteredOptions = [];
   String _searchQuery = "";
+  int _idCustomer = 0;
 
   @override
   void initState() {
@@ -29,11 +30,9 @@ class _CostumerPageState extends State<CostumerPage> {
     _allCustomersFuture = handleAllCustomers();
   }
 
-  Future<List<String>> handleAllCustomers() async {
+  Future<List<Customer>> handleAllCustomers() async {
     final AllCustomers allCustomers = await getAllCustomers();
-    _allCustomers = allCustomers.allCustomers
-        .map((customer) => customer.companyName)
-        .toList();
+    _allCustomers = allCustomers.allCustomers;
     _filteredOptions = List.from(_allCustomers);
     return _allCustomers;
   }
@@ -66,8 +65,8 @@ class _CostumerPageState extends State<CostumerPage> {
               right: 0,
               bottom: 0,
               child: DetailsContainer(
-                optionSelected: _optionSelected,
                 scrollController: _scrollController,
+                idCustomer: _idCustomer,
               ),
             ),
           ],
@@ -92,7 +91,7 @@ class _CostumerPageState extends State<CostumerPage> {
   void _showOptions(BuildContext context) async {
     await _allCustomersFuture;
 
-    showModalBottomSheet<String>(
+    showModalBottomSheet<Customer>(
       context: context,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
@@ -125,7 +124,7 @@ class _CostumerPageState extends State<CostumerPage> {
                       setModalState(() {
                         _searchQuery = value;
                         _filteredOptions = _allCustomers
-                            .where((customer) => customer
+                            .where((customer) => customer.companyName
                                 .toLowerCase()
                                 .contains(_searchQuery.toLowerCase()))
                             .toList();
@@ -147,6 +146,7 @@ class _CostumerPageState extends State<CostumerPage> {
                     child: ListView.builder(
                       itemCount: _filteredOptions.length,
                       itemBuilder: (context, index) {
+                        final customer = _filteredOptions[index];
                         return Container(
                           margin: const EdgeInsets.symmetric(
                               vertical: 8.0, horizontal: 2.0),
@@ -169,7 +169,7 @@ class _CostumerPageState extends State<CostumerPage> {
                               color: Color(darkBlue),
                             ),
                             title: Text(
-                              _filteredOptions[index],
+                              customer.companyName,
                               style: const TextStyle(
                                 color: Color(darkBlue),
                                 fontSize: 18.0,
@@ -177,7 +177,7 @@ class _CostumerPageState extends State<CostumerPage> {
                               ),
                             ),
                             trailing: Icon(
-                              _optionSelected == _filteredOptions[index]
+                              _optionSelected == customer.companyName
                                   ? CupertinoIcons.check_mark_circled
                                   : CupertinoIcons.circle,
                               color: const Color(darkBlue),
@@ -185,8 +185,7 @@ class _CostumerPageState extends State<CostumerPage> {
                             ),
                             contentPadding:
                                 const EdgeInsets.symmetric(horizontal: 24.0),
-                            onTap: () =>
-                                Navigator.pop(context, _filteredOptions[index]),
+                            onTap: () => Navigator.pop(context, customer),
                           ),
                         );
                       },
@@ -206,7 +205,8 @@ class _CostumerPageState extends State<CostumerPage> {
 
       if (selectedOption != null) {
         setState(() {
-          _optionSelected = selectedOption;
+          _optionSelected = selectedOption.companyName;
+          _idCustomer = selectedOption.idCustomer;
           _showDetails = true;
         });
       }
