@@ -7,21 +7,11 @@ import 'package:kodiak/models/customer_product_and_purchase_history.dart';
 import '../../utils/constants.dart';
 
 class DetailsContainer extends StatefulWidget {
-<<<<<<< HEAD
-  final String optionSelected;
-  final ScrollController scrollController;
-
-  const DetailsContainer(
-      {super.key,
-      required this.optionSelected,
-      required this.scrollController});
-=======
   final int idCustomer;
   final ScrollController scrollController;
 
   const DetailsContainer(
       {super.key, required this.idCustomer, required this.scrollController});
->>>>>>> 1b761c1d20bb69739a6dc90e39b00c7287d1b64b
 
   @override
   State<DetailsContainer> createState() => _DetailsContainerState();
@@ -29,18 +19,11 @@ class DetailsContainer extends StatefulWidget {
 
 class _DetailsContainerState extends State<DetailsContainer> {
   late Future<CustomerHistory> _customerHistory;
-<<<<<<< HEAD
-=======
   late int _currentCustomerId = widget.idCustomer;
->>>>>>> 1b761c1d20bb69739a6dc90e39b00c7287d1b64b
 
   @override
   void initState() {
     super.initState();
-<<<<<<< HEAD
-    _customerHistory =
-        getCustomerProductAndPurchaseHistory(idCustomer: '30211');
-=======
     _fetchCustomerHistory(_currentCustomerId);
   }
 
@@ -58,7 +41,6 @@ class _DetailsContainerState extends State<DetailsContainer> {
         _fetchCustomerHistory(_currentCustomerId);
       });
     }
->>>>>>> 1b761c1d20bb69739a6dc90e39b00c7287d1b64b
   }
 
   @override
@@ -86,10 +68,6 @@ class _DetailsContainerState extends State<DetailsContainer> {
         padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 24.0),
         child: Column(
           children: [
-<<<<<<< HEAD
-            _buildDetailsHeader(),
-=======
->>>>>>> 1b761c1d20bb69739a6dc90e39b00c7287d1b64b
             Expanded(
               child: FutureBuilder<CustomerHistory>(
                 future: _customerHistory,
@@ -105,10 +83,7 @@ class _DetailsContainerState extends State<DetailsContainer> {
                   if (snapshot.hasData) {
                     return Column(
                       children: [
-<<<<<<< HEAD
-=======
                         _buildDetailsHeader(snapshot.data!.companyName),
->>>>>>> 1b761c1d20bb69739a6dc90e39b00c7287d1b64b
                         _buildMostPurchasedProducts(snapshot.data!.topProducts),
                         const SizedBox(height: 24.0),
                         _buildLatestPurchases(snapshot.data!.lastPurchases,
@@ -120,22 +95,14 @@ class _DetailsContainerState extends State<DetailsContainer> {
                   return const Center(child: Text('Sem dados disponíveis.'));
                 },
               ),
-<<<<<<< HEAD
-            )
-=======
             ),
->>>>>>> 1b761c1d20bb69739a6dc90e39b00c7287d1b64b
           ],
         ),
       ),
     );
   }
 
-<<<<<<< HEAD
-  Widget _buildDetailsHeader() {
-=======
   Widget _buildDetailsHeader(String companyName) {
->>>>>>> 1b761c1d20bb69739a6dc90e39b00c7287d1b64b
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -147,11 +114,7 @@ class _DetailsContainerState extends State<DetailsContainer> {
             )),
         const SizedBox(height: 4.0),
         Text(
-<<<<<<< HEAD
-          widget.optionSelected,
-=======
           companyName,
->>>>>>> 1b761c1d20bb69739a6dc90e39b00c7287d1b64b
           style: const TextStyle(fontSize: 18, color: Colors.white),
         ),
         const SizedBox(height: 12.0),
@@ -346,10 +309,7 @@ class _DetailsContainerState extends State<DetailsContainer> {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-<<<<<<< HEAD
-=======
               color: Color(darkBlue),
->>>>>>> 1b761c1d20bb69739a6dc90e39b00c7287d1b64b
             ),
           ),
           trailing: Text(

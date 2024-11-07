@@ -116,7 +116,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
             children: [
               ListTile(
                 title: const Text(
-                  'Margem de Lucro',
+                  'Margem de Contribuição',
                   style: TextStyle(color: Colors.white, fontSize: 18.0),
                 ),
                 onTap: () {
@@ -125,7 +125,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
               ),
               ListTile(
                 title: const Text(
-                  'Markup',
+                  'Margem de Lucro',
                   style: TextStyle(color: Colors.white, fontSize: 18.0),
                 ),
                 onTap: () {
