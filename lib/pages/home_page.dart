@@ -7,16 +7,23 @@ import 'package:kodiak/utils/constants.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
+<<<<<<< HEAD
 import 'calculator_page/calculator_page.dart';
 
+=======
+>>>>>>> 1b761c1d20bb69739a6dc90e39b00c7287d1b64b
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     final user = Provider
         .of<UserProvider>(context)
         .user;
+=======
+    final user = Provider.of<UserProvider>(context).user;
+>>>>>>> 1b761c1d20bb69739a6dc90e39b00c7287d1b64b
 
     return Scaffold(
       backgroundColor: const Color(white),
@@ -28,7 +35,11 @@ class HomePage extends StatelessWidget {
                   end: Alignment.bottomRight,
                   colors: [Color(darkBlue), Color(lightBlue)]),
               borderRadius:
+<<<<<<< HEAD
               const BorderRadius.vertical(bottom: Radius.circular(30)),
+=======
+                  const BorderRadius.vertical(bottom: Radius.circular(30)),
+>>>>>>> 1b761c1d20bb69739a6dc90e39b00c7287d1b64b
               boxShadow: [
                 BoxShadow(
                     color: Colors.black.withOpacity(0.3),
@@ -105,7 +116,11 @@ class HomePage extends StatelessWidget {
                       Text(
                         user?.position ?? 'Vendedor',
                         style:
+<<<<<<< HEAD
                         const TextStyle(fontSize: 16, color: Color(white)),
+=======
+                            const TextStyle(fontSize: 16, color: Color(white)),
+>>>>>>> 1b761c1d20bb69739a6dc90e39b00c7287d1b64b
                       )
                     ],
                   ),
@@ -136,6 +151,7 @@ class HomePage extends StatelessWidget {
                               curve: Curves.easeInOut));
                     }),
                     buildSquareButton(CupertinoIcons.person_2_alt, 'Clientes',
+<<<<<<< HEAD
                             () {
                           Navigator.push(
                               context,
@@ -172,6 +188,18 @@ class HomePage extends StatelessWidget {
                       },
                     ),
                     buildSquareButton(CupertinoIcons.bag_fill, 'Vendas', () {}),
+=======
+                        () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.size,
+                              alignment: Alignment.center,
+                              duration: const Duration(milliseconds: 300),
+                              child: const CostumerPage(),
+                              curve: Curves.easeInOut));
+                    })
+>>>>>>> 1b761c1d20bb69739a6dc90e39b00c7287d1b64b
                   ],
                 ),
               ),
@@ -180,16 +208,33 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     buildSquareButton(CupertinoIcons.bag_fill, 'Vendas', () {}),
+<<<<<<< HEAD
                     buildSquareButton(CupertinoIcons.bag_fill, 'Vendas', () {}),
                   ],
                 ),
               ),
+=======
+                    buildSquareButton(CupertinoIcons.bag_fill, 'Vendas', () {})
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    buildSquareButton(CupertinoIcons.bag_fill, 'Vendas', () {}),
+                    buildSquareButton(CupertinoIcons.bag_fill, 'Vendas', () {})
+                  ],
+                ),
+              )
+>>>>>>> 1b761c1d20bb69739a6dc90e39b00c7287d1b64b
             ],
           ),
         ),
       ),
     );
   }
+<<<<<<< HEAD
 
   Widget buildSquareButton(IconData icon, String label,
       VoidCallback onPressed) {
@@ -240,3 +285,54 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+=======
+}
+
+Widget buildSquareButton(IconData icon, String label, VoidCallback onPressed) {
+  return Expanded(
+    child: AspectRatio(
+      aspectRatio: 1,
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Container(
+          margin: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(darkBlue),
+                    Color(lightBlue),
+                  ]),
+              color: const Color(darkBlue),
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withOpacity(0.3),
+                    spreadRadius: 2,
+                    blurRadius: 8,
+                    offset: const Offset(0, 5))
+              ]),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 80,
+                color: const Color(white),
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              Text(
+                label,
+                style: const TextStyle(color: Color(white), fontSize: 24),
+              )
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
+>>>>>>> 1b761c1d20bb69739a6dc90e39b00c7287d1b64b
